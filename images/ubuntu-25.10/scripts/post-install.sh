@@ -8,6 +8,7 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get install -y gcc hostname iproute2 lan
 sudo mount -o loop VBoxGuestAdditions.iso /mnt
 (echo 'y' | sudo sh /mnt/VBoxLinuxAdditions.run) || echo $?
 sudo umount /mnt
+sudo rm VBoxGuestAdditions.iso
 
 sudo rm -rf /etc/apt/sources.list*
 sudo mkdir -p /etc/apt/sources.list.d

@@ -3,9 +3,10 @@
   <component name="Go" enabled="true" />
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
-      <excludeFolder url="file://$MODULE_DIR$/images/ubuntu_25.10/output-ubuntu-25-10" />
-      <excludeFolder url="file://$MODULE_DIR$/images/ubuntu_25.10/output-vagrant" />
-      <excludeFolder url="file://$MODULE_DIR$/images/ubuntu_25.10/packer_cache" />
+      <excludeFolder url="file://$MODULE_DIR$/images/ubuntu-25.10/output-ubuntu-25-10" />
+      <excludeFolder url="file://$MODULE_DIR$/images/ubuntu-25.10/output-vagrant" />
+      <excludeFolder url="file://$MODULE_DIR$/images/ubuntu-25.10/packer_cache" />
+      <excludeFolder url="file://$MODULE_DIR$/incus/.vagrant" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

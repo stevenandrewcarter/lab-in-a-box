@@ -18,5 +18,6 @@ Run the following commands to build a desired Virtual Box Image usable by Vagran
 ```shell
 cd images/<OS_VERSION>
 packer init .
-packber build .
+packer build .
+vagrant box add --name <OS_VERSION> ./output-vagrant/package.box
 ```
