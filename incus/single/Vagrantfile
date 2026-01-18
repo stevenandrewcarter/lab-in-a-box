@@ -6,11 +6,12 @@ Vagrant.configure("2") do |config|
   # update checks must be disabled.
   config.vm.box = "ubuntu-25.10"
   config.vm.box_check_update = false
+  # Do not sure the Vagrantfile location with the box
+  config.vm.synced_folder ".", "/vagrant", disabled: true
 
+  # Define a single Incus Node.
   servers = [
-    { hostname: "node1.incus.dev", cpu: 2, mem_mb: 4096 },
-    { hostname: "node2.incus.dev", cpu: 2, mem_mb: 4096 },
-    { hostname: "node3.incus.dev", cpu: 2, mem_mb: 4096 },
+    { hostname: "node.incus.dev", cpu: 4, mem_mb: 4096 },
   ]
   servers.each do |machine|
     config.vm.define machine[:hostname] do |node|
@@ -50,28 +51,6 @@ Vagrant.configure("2") do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   # config.vm.synced_folder "../data", "/vagrant_data"
-
-  # Disable the default share of the current code directory. Doing this
-  # provides improved isolation between the vagrant box and your host
-  # by making sure your Vagrantfile isn't accessible to the vagrant box.
-  # If you use this you may want to enable additional shared subfolders as
-  # shown above.
-  # config.vm.synced_folder ".", "/vagrant", disabled: true
-
-  # Provider-specific configuration so you can fine-tune various
-  # backing providers for Vagrant. These expose provider-specific options.
-  # Example for VirtualBox:
-  #
-  # config.vm.provider "virtualbox" do |vb|
-  #   # Display the VirtualBox GUI when booting the machine
-  #   vb.gui = true
-  #
-  #   # Customize the amount of memory on the VM:
-  #   vb.memory = "1024"
-  # end
-  #
-  # View the documentation for the provider you are using for more
-  # information on available options.
 
   # Enable provisioning with a shell script. Additional provisioners such as
   # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
