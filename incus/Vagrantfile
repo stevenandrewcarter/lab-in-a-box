@@ -1,19 +1,29 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# All Vagrant configuration is done below. The "2" in Vagrant.configure
-# configures the configuration version (we support older styles for
-# backwards compatibility). Please don't change it unless you know what
-# you're doing.
 Vagrant.configure("2") do |config|
-  # The most common configuration options are documented and commented below.
-  # For a complete reference, please see the online documentation at
-  # https://docs.vagrantup.com.
-
-  # Every Vagrant development environment requires a box. You can search for
-  # boxes at https://vagrantcloud.com/search.
+  # Vagrant boxes are built in the $PROJECT_ROOT/images directory. The boxes are not downloaded from the internet so
+  # update checks must be disabled.
   config.vm.box = "ubuntu-25.10"
   config.vm.box_check_update = false
+
+  servers = [
+    { hostname: "node1.incus.dev", cpu: 2, mem_mb: 4096 },
+    { hostname: "node2.incus.dev", cpu: 2, mem_mb: 4096 },
+    { hostname: "node3.incus.dev", cpu: 2, mem_mb: 4096 },
+  ]
+  servers.each do |machine|
+    config.vm.define machine[:hostname] do |node|
+      node.vm.hostname = machine[:hostname]
+      # node.vm.network "private_network", ip: machine[:ip]
+      node.vm.provider "virtualbox" do |vb|
+        vb.name = machine[:hostname]
+        vb.customize ["modifyvm", :id, "--memory", machine[:mem_mb]]
+        vb.customize ["modifyvm", :id, "--cpus", machine[:cpu]]
+        vb.customize ["modifyvm", :id, "--groups", "/incus-lab"]
+      end
+    end
+  end
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
@@ -66,8 +76,8 @@ Vagrant.configure("2") do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
   # documentation for more information about their specific syntax and use.
-  # config.vm.provision "shell", inline: <<-SHELL
-  #   apt-get update
-  #   apt-get install -y apache2
-  # SHELL
+  config.vm.provision "shell", inline: <<-SHELL
+    apt-get update
+    apt-get install -y incus qemu-system
+  SHELL
 end

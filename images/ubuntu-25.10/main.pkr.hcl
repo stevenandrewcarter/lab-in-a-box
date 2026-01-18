@@ -1,3 +1,5 @@
+# Build the VirtualBox Vagrant Box by running
+#   $ packer build -force .
 packer {
   required_plugins {
     vagrant = {
@@ -10,6 +12,17 @@ packer {
     }
   }
 }
+
+variable "ubuntu_iso_url" {
+  type = "string"
+  default = "http://releases.ubuntu.com/25.10/ubuntu-25.10-live-server-amd64.iso"
+}
+
+variable "ubuntu_iso_checksum" {
+  type = "string"
+  default = "dc54870e5261c0abad19f74b8146659d10e625971792bd42d7ecde820b60a1d0"
+}
+
 
 source "virtualbox-iso" "ubuntu-25-10" {
   boot_command = [
@@ -41,9 +54,9 @@ source "virtualbox-iso" "ubuntu-25-10" {
   guest_os_type          = "Ubuntu_64"
   headless               = false
   http_directory         = "http"
-  iso_checksum           = "dc54870e5261c0abad19f74b8146659d10e625971792bd42d7ecde820b60a1d0"
-  iso_url                = "http://releases.ubuntu.com/25.10/ubuntu-25.10-live-server-amd64.iso"
-  memory                 = 16384
+  iso_checksum           = var.ubuntu_iso_checksum
+  iso_url                = var.ubuntu_iso_url
+  memory                 = 4096
   shutdown_command       = "sudo shutdown -h now"
   ssh_password           = "vagrant"
   ssh_port               = 22
